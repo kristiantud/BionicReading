@@ -1,57 +1,100 @@
-// TODOs: override the current p.innerHTML with the new bionified words
+// TODOs: override the current p.innerHTML with the new bionified words DONE
+// add spans into this DONE
+// make sure links don't get messed up, figure out how to deal with <a> stuff DONE
+// make sure the bolded parts don't change font-family DONE
+
+// make it work with spans as well
 
 
 
 
 const pElements = document.getElementsByTagName("p");
+const spanElements = document.getElementsByTagName("span");
 var bionifiedWords = [];
 
-console.log("grabbed this many ps " + pElements.length);
- 
-// find every p in the website
-for (let i = 0; i < pElements.length; i++){
+// console.log(spanElements.length);
+
+fetchWords(pElements);
+// fetchWords(spanElements);
+
+
+
+
+function fetchWords(theElementToChange){
     
-    let words = []; // list of words
-
-    var currentBlock = pElements[i].innerHTML; // the current p
-         
-    var word = "";
-
-
-    // go through every character in the given block
-    for (let char = 0; char < currentBlock.length; char++){
-        if (currentBlock.charAt(char) != ' '){
-            // if current char is not a space, add it to word
-            word = word + currentBlock.charAt(char);
-        } else {
-            // if the current char is space, add the full word to words
-            words.push(word);
-            word = '';
+    for (let x = 0; x < theElementToChange.length; x++){
+        // pElements[x].style.fontFamily = "Times New Roman, sans-serif";
+    }
+    
+    
+    // var pFontFamily = pElements[0].style.fontFamily;
+    
+    // console.log("font family: " + pFontFamily);
+    
+    // console.log("grabbed this many ps " + pElements.length);
+    
+    
+     
+    // find every p in the website
+    for (let i = 0; i < theElementToChange.length; i++){
+        
+        let words = []; // list of words
+    
+        // var currentBlock = pElements[i].innerHTML; // the current p
+             
+        var word = "";
+    
+        //asdasd <a href=""></a>
+        // go through every character in the given block
+        for (let char = 0; char < theElementToChange[i].innerHTML.length; char++){
+            if (theElementToChange[i].innerHTML.charAt(char) == '<'){
+                var counter = 0;
+                // word = word + theElementToChange[i].innerHTML.charAt(char);
+                for (let x = char; x < theElementToChange[i].innerHTML.length; x++){
+                    word = word + theElementToChange[i].innerHTML.charAt(x);
+                    if (theElementToChange[i].innerHTML.charAt(x) == '>'){
+                        counter++;
+                        if (counter == 2){
+                            char = x;
+                            break;
+                        }
+                    }
+                }
+            }else if (theElementToChange[i].innerHTML.charAt(char) != ' '){
+                // if current char is not a space, add it to word
+                word = word + theElementToChange[i].innerHTML.charAt(char);
+            } else {
+                // if the current char is space, add the full word to words
+                words.push(word);
+                word = '';
+            }
         }
-    }
-
-    // add the final word to the words
-    words.push(word);
     
-
-    // console.log(words);
-
-    // call a function to add bionic reading to every word that we have seen
-    bionify(words);
-    // console.log("words:" + words);
-    // console.log("bws: " + bionifiedWords);
-
-    // override the current p block with the bionifiedWords
-    // replaceWithBW(i);
-    pElements[i].innerHTML = '';
-    for (let x = 0; x < bionifiedWords.length; x++){
-        console.log(bionifiedWords[x]);
-        pElements[i].innerHTML = pElements[i].innerHTML + bionifiedWords[x] + " ";
-
+        // add the final word to the words
+        words.push(word);
+        
+        
+        console.log(words);
+    
+        // call a function to add bionic reading to every word that we have seen
+        bionify(words);
+        // console.log("words:" + words);
+        // console.log("bws: " + bionifiedWords);
+    
+        // override the current p block with the bionifiedWords
+        // replaceWithBW(i);
+        theElementToChange[i].innerHTML = '';
+        for (let x = 0; x < bionifiedWords.length; x++){
+            // console.log(bionifiedWords[x]);
+            theElementToChange[i].innerHTML = theElementToChange[i].innerHTML + bionifiedWords[x] + " ";
+    
+        }
+    
+        bionifiedWords = [];
     }
-
-    bionifiedWords = [];
 }
+
+
 
 
 // take list of words, turn half of the word bold
@@ -66,20 +109,22 @@ function bionify(words){
     for (let i = 0; i < words.length; i++){
         if (words[i].length == 1){ // word with only 1 character
             // console.log("one character");
-            let bw = '<b>' + words[i].charAt(words[i].length - 1) + '</b>';
+            let bw = '<span style="font-weight: bold;">' + words[i].charAt(words[i].length - 1) + '</span>';
             bionifiedWords.push(bw);
         } else if (words[i].length == 2){ // word with 2 characters
             // console.log("two characters");
-            let bw = '<b>' + words[i].charAt(words[i].length - 2) + '</b>' + words[i].charAt(words[i].length - 1);
+            let bw = '<span style="font-weight: bold;">' + words[i].charAt(words[i].length - 2) + '</span>' + words[i].charAt(words[i].length - 1);
             bionifiedWords.push(bw);
         } else { // word with more than 2 characters
             let bw = '';
             for (let x = 0; x < words[i].length; x++){
-                // console.log(words[i][x]);
-                if (bw.length == 0){ // first char
-                    bw = '<b>' + words[i][x]; 
+                if (words[i][x] == '<'){
+                    bionifiedWords.push(words[i]);
+                    x = words[i].length - 1;
+                } else if (bw.length == 0){ // first char
+                    bw = '<span style="font-weight: bold;">' + words[i][x]; 
                 } else if (isMiddle(words[i], words[i][x])) { // middle char
-                    bw = bw + words[i][x] + '</b>';
+                    bw = bw + words[i][x] + '</span>';
                 } else {
                     bw = bw + words[i][x];
                 }
