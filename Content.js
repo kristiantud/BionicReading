@@ -13,25 +13,19 @@ const spanElements = document.getElementsByTagName("span");
 var bionifiedWords = [];
 
 // console.log(spanElements.length);
-
-fetchWords(pElements);
-// fetchWords(spanElements);
-
+fetchWords(spanElements, "span");
+fetchWords(pElements,"p");
 
 
 
-function fetchWords(theElementToChange){
+
+
+function fetchWords(theElementToChange, theElement){
+        
     
-    for (let x = 0; x < theElementToChange.length; x++){
-        // pElements[x].style.fontFamily = "Times New Roman, sans-serif";
-    }
+
     
-    
-    // var pFontFamily = pElements[0].style.fontFamily;
-    
-    // console.log("font family: " + pFontFamily);
-    
-    // console.log("grabbed this many ps " + pElements.length);
+    console.log("grabbed this many elements " + theElementToChange.length);
     
     
      
@@ -74,10 +68,14 @@ function fetchWords(theElementToChange){
         words.push(word);
         
         
-        console.log(words);
     
         // call a function to add bionic reading to every word that we have seen
-        bionify(words);
+        if (theElement == "span"){
+            bionifySpan(words);
+        } else {
+            bionifyP(words);
+        }
+        
         // console.log("words:" + words);
         // console.log("bws: " + bionifiedWords);
     
@@ -100,7 +98,7 @@ function fetchWords(theElementToChange){
 // take list of words, turn half of the word bold
 
 // this is just a pElements to see if this thing works!!!
-function bionify(words){
+function bionifyP(words){
     // console.log(words);
     // for half of every word, add <b> </b>
     var bionicWord = "";
@@ -136,8 +134,44 @@ function bionify(words){
 
         // console.log(bionifiedWords);
     }
+}
 
+function bionifySpan(words){
+    // console.log(words);
+    // for half of every word, add <b> </b>
+    var bionicWord = "";
 
+     // go over each character in word
+    for (let i = 0; i < words.length; i++){
+        if (words[i].length == 1){ // word with only 1 character
+            // console.log("one character");
+            let bw = '<b>' + words[i].charAt(words[i].length - 1) + '</b>';
+            bionifiedWords.push(bw);
+        } else if (words[i].length == 2){ // word with 2 characters
+            // console.log("two characters");
+            let bw = '<b>' + words[i].charAt(words[i].length - 2) + '</b>' + words[i].charAt(words[i].length - 1);
+            bionifiedWords.push(bw);
+        } else { // word with more than 2 characters
+            let bw = '';
+            for (let x = 0; x < words[i].length; x++){
+                if (words[i][x] == '<'){
+                    bionifiedWords.push(words[i]);
+                    x = words[i].length - 1;
+                } else if (bw.length == 0){ // first char
+                    bw = '<b>' + words[i][x]; 
+                } else if (isMiddle(words[i], words[i][x])) { // middle char
+                    bw = bw + words[i][x] + '</b>';
+                } else {
+                    bw = bw + words[i][x];
+                }
+            }
+            bionifiedWords.push(bw);
+            bw = '';
+            
+        }
+
+        // console.log(bionifiedWords);
+    }
 }
 
 
