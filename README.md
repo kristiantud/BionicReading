@@ -1,5 +1,5 @@
 # BionicReading
-A an extension for Chrome that <em>bionifies</em> huge blocks of texts - basically bolding half of the letters in every word. The bolded letters serve as a focus point that people suffering with ADHD can focus on, helping them read without getting distracted. 
+A an extension for Chrome that <em>bionifies</em> huge blocks of texts - basically bolding half of the letters in every word. The bolded letters serve as a focus point that people with ADHD can focus on, thus minimizing distracted reading. 
 
 Without BionicReading: <br>
 ![without_br](https://i.gyazo.com/f583d176ac52e4f9133a103d80b7b77c.png)
