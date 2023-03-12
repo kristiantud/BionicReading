@@ -12,6 +12,9 @@
     "action": {
         "default_title": "ADHD Zapper",
         "default_popup": "popup.html"
+    },
+    "icons":{
+        "128": "lightning.png"
     }
 
 }
