@@ -3,7 +3,8 @@
 // make sure links don't get messed up, figure out how to deal with <a> stuff DONE
 // make sure the bolded parts don't change font-family DONE
 
-// make it work with spans as well
+// make it work with spans as well Done
+// make it work on wiki, ctv, CBC bug
 
 
 
@@ -12,19 +13,20 @@ const pElements = document.getElementsByTagName("p");
 const spanElements = document.getElementsByTagName("span");
 var bionifiedWords = [];
 
-// console.log(spanElements.length);
-fetchWords(spanElements, "span");
-fetchWords(pElements,"p");
 
 
+// document.getElementById("on-button").addEventListener("click", turnOn);
+
+// function turnOn(){
+//     // console.log(spanElements.length);
+//     fetchWords(spanElements, "span");
+//     fetchWords(pElements,"p");
+// }
 
 
 
 function fetchWords(theElementToChange, theElement){
-        
-    
 
-    
     console.log("grabbed this many elements " + theElementToChange.length);
     
     
