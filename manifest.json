@@ -3,6 +3,9 @@
     "name": "ADHD Zapper",
     "description":"Bionify the page to create a reading environment that is more suitable for people with ADHD, Dyslexia.",
     "version": "1.0.0",
+    "permissions" : [
+        "storage"
+    ],
     "content_scripts": [
         {
             "matches": ["<all_urls>"],

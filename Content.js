@@ -14,14 +14,24 @@ const spanElements = document.getElementsByTagName("span");
 var bionifiedWords = [];
 
 
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        // console.log(sender.tab ? 
+        //     "from a content script: " + sender.tab.url :
+        //     "from the extension");
+        if (request.message == "zap!"){
+            console.log("received message.");
+            fetchWords(spanElements, "span");
+            fetchWords(pElements,"p");
+        }
+    }
+);
 
-// document.getElementById("on-button").addEventListener("click", turnOn);
 
-// function turnOn(){
-//     // console.log(spanElements.length);
-//     fetchWords(spanElements, "span");
-//     fetchWords(pElements,"p");
-// }
+
+
+
+
 
 
 
