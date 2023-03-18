@@ -9,9 +9,9 @@
 
 
 
-const pElements = document.getElementsByTagName("p");
-const spanElements = document.getElementsByTagName("span");
-var bionifiedWords = [];
+
+
+console.log(pElements);
 
 
 chrome.runtime.onMessage.addListener(
@@ -20,6 +20,11 @@ chrome.runtime.onMessage.addListener(
         //     "from a content script: " + sender.tab.url :
         //     "from the extension");
         if (request.message == "zap!"){
+            // fetch messages here to prevent slowing down tabs
+            const pElements = document.getElementsByTagName("p");
+            const spanElements = document.getElementsByTagName("span");
+            var bionifiedWords = [];
+            // signal received message, then zap the page
             console.log("received message.");
             fetchWords(spanElements, "span");
             fetchWords(pElements,"p");
@@ -39,8 +44,6 @@ function fetchWords(theElementToChange, theElement){
 
     console.log("grabbed this many elements " + theElementToChange.length);
     
-    
-     
     // find every p in the website
     for (let i = 0; i < theElementToChange.length; i++){
         
@@ -66,7 +69,7 @@ function fetchWords(theElementToChange, theElement){
                         }
                     }
                 }
-            }else if (theElementToChange[i].innerHTML.charAt(char) != ' '){
+            }else if (theElementToChange[i].innerHTML.charAt(char) != ' ' ){
                 // if current char is not a space, add it to word
                 word = word + theElementToChange[i].innerHTML.charAt(char);
             } else {
@@ -78,6 +81,8 @@ function fetchWords(theElementToChange, theElement){
     
         // add the final word to the words
         words.push(word);
+
+        console.log(words);
         
         
     
