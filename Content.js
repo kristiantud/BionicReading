@@ -7,8 +7,10 @@
 // make it work on wiki, ctv, CBC bug
 
 
-
-
+// fetch messages here to prevent slowing down tabs
+const pElements = document.getElementsByTagName("p");
+const spanElements = document.getElementsByTagName("span");
+var bionifiedWords = [];
 
 
 console.log(pElements);
@@ -20,10 +22,8 @@ chrome.runtime.onMessage.addListener(
         //     "from a content script: " + sender.tab.url :
         //     "from the extension");
         if (request.message == "zap!"){
-            // fetch messages here to prevent slowing down tabs
-            const pElements = document.getElementsByTagName("p");
-            const spanElements = document.getElementsByTagName("span");
-            var bionifiedWords = [];
+            
+            
             // signal received message, then zap the page
             console.log("received message.");
             fetchWords(spanElements, "span");
@@ -57,6 +57,9 @@ function fetchWords(theElementToChange, theElement){
         // go through every character in the given block
         for (let char = 0; char < theElementToChange[i].innerHTML.length; char++){
             if (theElementToChange[i].innerHTML.charAt(char) == '<'){
+                words.push(word);
+                console.log(word);
+                word = '';
                 var counter = 0;
                 // word = word + theElementToChange[i].innerHTML.charAt(char);
                 for (let x = char; x < theElementToChange[i].innerHTML.length; x++){
@@ -70,19 +73,25 @@ function fetchWords(theElementToChange, theElement){
                     }
                 }
             }else if (theElementToChange[i].innerHTML.charAt(char) != ' ' ){
+                
                 // if current char is not a space, add it to word
-                word = word + theElementToChange[i].innerHTML.charAt(char);
+                word = word + theElementToChange[i].innerHTML.charAt(char); 
+                
+                
+                
             } else {
                 // if the current char is space, add the full word to words
                 words.push(word);
                 word = '';
+                console.log(word);
             }
         }
     
         // add the final word to the words
         words.push(word);
+        console.log(word);
 
-        console.log(words);
+        // console.log(words);
         
         
     
