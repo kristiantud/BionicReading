@@ -46,7 +46,6 @@ function fetchWords(theElementToChange, theElement){
     
     // find every p in the website
     for (let i = 0; i < theElementToChange.length; i++){
-        
         let words = []; // list of words
     
         // var currentBlock = pElements[i].innerHTML; // the current p
@@ -56,9 +55,10 @@ function fetchWords(theElementToChange, theElement){
         //asdasd <a href=""></a>
         // go through every character in the given block
         for (let char = 0; char < theElementToChange[i].innerHTML.length; char++){
+            
             if (theElementToChange[i].innerHTML.charAt(char) == '<'){
                 words.push(word);
-                console.log(word);
+                console.log("current word added(start):" + word);
                 word = '';
                 var counter = 0;
                 // word = word + theElementToChange[i].innerHTML.charAt(char);
@@ -82,14 +82,14 @@ function fetchWords(theElementToChange, theElement){
             } else {
                 // if the current char is space, add the full word to words
                 words.push(word);
+                console.log("current word added (end):" + word);
                 word = '';
-                console.log(word);
+                
             }
         }
     
         // add the final word to the words
         words.push(word);
-        console.log(word);
 
         // console.log(words);
         
